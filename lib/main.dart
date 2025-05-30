@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:notes_sphere_flutter_app/screens/home_screen.dart';
+import 'package:notes_sphere_flutter_app/utils/router.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,10 +11,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: "NotesSphere",
       debugShowCheckedModeBanner: false,
-      home: Scaffold(),
+      routerConfig: AppRouter.router,
     );
   }
 }
