@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:notes_sphere_flutter_app/utils/constants.dart';
 import 'package:notes_sphere_flutter_app/utils/text_styles.dart';
+import 'package:notes_sphere_flutter_app/widgets/notes_todo_card.dart';
+import 'package:notes_sphere_flutter_app/widgets/progress_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,7 +20,36 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8),
-        child: Column(children: []),
+        child: Column(
+          children: [
+            SizedBox(height: AppConstants.kDefaultHeight),
+            ProgressCard(completedTasks: 2, totalTasks: 3),
+            SizedBox(height: AppConstants.kDefaultHeight),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                NotesTodoCard(
+                  title: 'Notes',
+                  description: "Notes Notes Notes Notes Notes",
+                  icon: Icons.bookmark_add_outlined,
+                ),
+                NotesTodoCard(
+                  title: 'To-Do List',
+                  description: "Notes Notes Notes Notes Notes",
+                  icon: Icons.today_outlined,
+                ),
+              ],
+            ),
+            SizedBox(height: AppConstants.kDefaultHeight * 3),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Today's Progress", style: AppTextStyles.appSubtitle),
+                Text("See All", style: AppTextStyles.appButton),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
