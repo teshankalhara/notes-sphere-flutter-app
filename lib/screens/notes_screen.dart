@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:notes_sphere_flutter_app/models/note_model.dart';
+import 'package:notes_sphere_flutter_app/services/note_service.dart';
 import 'package:notes_sphere_flutter_app/utils/colors.dart';
 import 'package:notes_sphere_flutter_app/utils/constants.dart';
 import 'package:notes_sphere_flutter_app/utils/router.dart';
@@ -12,6 +14,36 @@ class NotesScreen extends StatefulWidget {
 }
 
 class _NotesScreenState extends State<NotesScreen> {
+  final NoteService noteService = NoteService();
+  List<Note> allNotes = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _checkIfUserIsNewAndCreateInitialNotes();
+  }
+
+  //check if user is new
+  void _checkIfUserIsNewAndCreateInitialNotes() async {
+    final bool isNewUser = await noteService.isNewUser();
+    //print("Is new user: $isNewUser");
+    if (isNewUser) {
+      await noteService.createInitialNotes();
+    }
+
+    //load notes
+    _loadNotes();
+  }
+
+  //method for loading notes
+  Future<void> _loadNotes() async {
+    final List<Note> notes = await noteService.loadNotes();
+    setState(() {
+      allNotes = notes;
+      print("Notes loaded: ${allNotes.length}");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
