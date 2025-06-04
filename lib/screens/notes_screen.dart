@@ -5,6 +5,7 @@ import 'package:notes_sphere_flutter_app/utils/colors.dart';
 import 'package:notes_sphere_flutter_app/utils/constants.dart';
 import 'package:notes_sphere_flutter_app/utils/router.dart';
 import 'package:notes_sphere_flutter_app/utils/text_styles.dart';
+import 'package:notes_sphere_flutter_app/widgets/notes_card.dart';
 
 class NotesScreen extends StatefulWidget {
   const NotesScreen({super.key});
@@ -16,6 +17,7 @@ class NotesScreen extends StatefulWidget {
 class _NotesScreenState extends State<NotesScreen> {
   final NoteService noteService = NoteService();
   List<Note> allNotes = [];
+  Map<String, List<Note>> notesWithCategory = {};
 
   @override
   void initState() {
@@ -37,10 +39,14 @@ class _NotesScreenState extends State<NotesScreen> {
 
   //method for loading notes
   Future<void> _loadNotes() async {
-    final List<Note> notes = await noteService.loadNotes();
+    final List<Note> loadNotes = await noteService.loadNotes();
+    final Map<String, List<Note>> notesByCategory = noteService
+        .getNotesByCategoryMap(loadNotes);
     setState(() {
-      allNotes = notes;
-      print("Notes loaded: ${allNotes.length}");
+      allNotes = loadNotes;
+      notesWithCategory = notesByCategory;
+      //print("Notes loaded: ${allNotes.length}");
+      //print("Notes by category: ${notesWithCategory}");
     });
   }
 
@@ -67,7 +73,52 @@ class _NotesScreenState extends State<NotesScreen> {
       body: Padding(
         padding: EdgeInsets.all(AppConstants.kDefaultPadding),
         child: Column(
-          children: [const Text("Notes", style: AppTextStyles.appTitle)],
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text("Notes", style: AppTextStyles.appTitle),
+            const SizedBox(height: AppConstants.kDefaultHeight * 2),
+            allNotes.isEmpty
+                ? SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  child: Center(
+                    child: Text(
+                      "No notes available , click on the + button to add a new note",
+                      style: TextStyle(
+                        color: AppColors.kWhiteColor.withOpacity(0.7),
+                        fontSize: 20,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                )
+                : GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: notesWithCategory.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: AppConstants.kDefaultPadding,
+                    mainAxisSpacing: AppConstants.kDefaultPadding,
+                    childAspectRatio: 6 / 4,
+                  ),
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        //go to notes by category
+                        AppRouter.router.push(
+                          "/category",
+                          extra: notesWithCategory.keys.elementAt(index),
+                        );
+                      },
+                      child: NotesCard(
+                        noteCategory: notesWithCategory.keys.elementAt(index),
+                        noOfNotes:
+                            notesWithCategory.values.elementAt(index).length,
+                      ),
+                    );
+                  },
+                ),
+          ],
         ),
       ),
     );
