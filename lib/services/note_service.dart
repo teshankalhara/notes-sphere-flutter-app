@@ -53,4 +53,30 @@ class NoteService {
     }
     return [];
   }
+
+  //get notes by category
+  Map<String, List<Note>> getNotesByCategoryMap(List<Note> allNotes) {
+    final Map<String, List<Note>> notesByCategory = {};
+    for (final note in allNotes) {
+      if (notesByCategory.containsKey(note.category)) {
+        notesByCategory[note.category]!.add(note);
+      } else {
+        notesByCategory[note.category] = [note];
+      }
+    }
+    return notesByCategory;
+  }
+
+  //method to get notes acording to the category
+  Future<List<Note>> getNotesByCategoryName(String category) async {
+    final dynamic allNotes = await _myBox.get("notes");
+    final List<Note> notes = [];
+
+    for (final note in allNotes) {
+      if (note.category == category) {
+        notes.add(note);
+      }
+    }
+    return notes;
+  }
 }
