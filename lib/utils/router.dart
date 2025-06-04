@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:notes_sphere_flutter_app/screens/home_screen.dart';
+import 'package:notes_sphere_flutter_app/screens/note_by_category.dart';
 import 'package:notes_sphere_flutter_app/screens/notes_screen.dart';
 import 'package:notes_sphere_flutter_app/screens/todo_screen.dart';
 
@@ -34,6 +35,15 @@ class AppRouter {
         path: "/todos",
         builder: (context, state) {
           return const TodoScreen();
+        },
+      ),
+
+      GoRoute(
+        name: "category",
+        path: "/category",
+        builder: (context, state) {
+          final String category = state.extra as String;
+          return NoteByCategory(category: category);
         },
       ),
     ],
