@@ -5,6 +5,7 @@ import 'package:notes_sphere_flutter_app/utils/colors.dart';
 import 'package:notes_sphere_flutter_app/utils/constants.dart';
 import 'package:notes_sphere_flutter_app/utils/router.dart';
 import 'package:notes_sphere_flutter_app/utils/text_styles.dart';
+import 'package:notes_sphere_flutter_app/widgets/bottom_sheet.dart';
 import 'package:notes_sphere_flutter_app/widgets/notes_card.dart';
 
 class NotesScreen extends StatefulWidget {
@@ -50,6 +51,25 @@ class _NotesScreenState extends State<NotesScreen> {
     });
   }
 
+  //open bottom sheet
+  void openBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return CategoryInputBottomSheet(
+          onNewNote: () {
+            Navigator.pop(context);
+            AppRouter.router.push("/create-note", extra: false);
+          },
+          onNewCategory: () {
+            Navigator.pop(context);
+            AppRouter.router.push("/create-note", extra: true);
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +83,7 @@ class _NotesScreenState extends State<NotesScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: openBottomSheet,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(100)),
           side: BorderSide(color: AppColors.kWhiteColor, width: 1),
