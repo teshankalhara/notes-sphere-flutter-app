@@ -114,4 +114,15 @@ class NoteService {
     }
     return categories;
   }
+
+  //add new note
+  Future<void> addNote(Note note) async {
+    try {
+      final dynamic allNotes = await _myBox.get("notes");
+      allNotes.add(note);
+      await _myBox.put("notes", allNotes);
+    } catch (err) {
+      print(err.toString());
+    }
+  }
 }
