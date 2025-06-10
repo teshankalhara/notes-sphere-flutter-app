@@ -40,6 +40,30 @@ class _NoteByCategoryState extends State<NoteByCategory> {
     AppRouter.router.push("/edit-note", extra: note);
   }
 
+  //remove note
+  Future<void> _removeNote(String id) async {
+    try {
+      await noteService.deleteNote(id);
+      //remove the note from the list
+      setState(() {
+        noteList.removeWhere((note) => note.id == id);
+      });
+
+      if (context.mounted) {
+        //show success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Note removed successfully")),
+        );
+      }
+    } catch (err) {
+      print(err.toString());
+      //show error message
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Failed to remove note")));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +106,12 @@ class _NoteByCategoryState extends State<NoteByCategory> {
                     editNote: () async {
                       _editNote(noteList[index]);
                     },
-                    removeNote: () async {},
+                    removeNote: () async {
+                      await _removeNote(noteList[index].id);
+                      setState(() {
+                        noteList.removeAt(index);
+                      });
+                    },
                   );
                 },
               ),
