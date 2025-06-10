@@ -5,6 +5,7 @@ import 'package:notes_sphere_flutter_app/screens/create_new_note.dart';
 import 'package:notes_sphere_flutter_app/screens/home_screen.dart';
 import 'package:notes_sphere_flutter_app/screens/note_by_category.dart';
 import 'package:notes_sphere_flutter_app/screens/notes_screen.dart';
+import 'package:notes_sphere_flutter_app/screens/single_note.dart';
 import 'package:notes_sphere_flutter_app/screens/todo_screen.dart';
 import 'package:notes_sphere_flutter_app/screens/update_note_screen.dart';
 
@@ -67,6 +68,16 @@ class AppRouter {
         builder: (context, state) {
           final Note note = state.extra as Note;
           return UpdateNoteScreen(note: note);
+        },
+      ),
+
+      //single note screen
+      GoRoute(
+        name: "single-note",
+        path: "/single-note",
+        builder: (context, state) {
+          final Note note = state.extra as Note;
+          return SingleNoteScreen(note: note);
         },
       ),
     ],
