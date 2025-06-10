@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    AppRouter.router.push("/todo");
+                    AppRouter.router.push("/todos");
                   },
                   child: NotesTodoCard(
                     title: 'To-Do List',
