@@ -36,7 +36,7 @@ class _NoteCategoryCardState extends State<NoteCategoryCard> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: widget.editNote,
                   icon: Icon(
                     Icons.edit_outlined,
                     color: AppColors.kWhiteColor.withOpacity(0.5),
@@ -45,7 +45,7 @@ class _NoteCategoryCardState extends State<NoteCategoryCard> {
                 ),
                 const SizedBox(width: AppConstants.kDefaultHeight),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: widget.removeNote,
                   icon: Icon(
                     Icons.delete_outline,
                     color: AppColors.kWhiteColor.withOpacity(0.5),
