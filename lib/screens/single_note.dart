@@ -25,17 +25,24 @@ class _SingleNoteScreenState extends State<SingleNoteScreen> {
         padding: const EdgeInsets.all(AppConstants.kDefaultPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const SizedBox(height: 20),
             Text(widget.note.title, style: AppTextStyles.appTitle),
             const SizedBox(height: 5),
+            Text(
+              widget.note.category,
+              style: AppTextStyles.appDescription.copyWith(
+                color: AppColors.kWhiteColor.withOpacity(0.5),
+              ),
+            ),
+            const SizedBox(height: AppConstants.kDefaultHeight / 2),
             Text(
               formattedDate,
               style: AppTextStyles.appDescriptionSmall.copyWith(
                 color: AppColors.kFabColor,
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: AppConstants.kDefaultHeight * 2),
             Text(
               widget.note.content,
               style: AppTextStyles.appDescription.copyWith(
