@@ -34,6 +34,12 @@ class _NoteByCategoryState extends State<NoteByCategory> {
     });
   }
 
+  //edit note
+  void _editNote(Note note) {
+    //naviage edit-note screen
+    AppRouter.router.push("/edit-note", extra: note);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +79,9 @@ class _NoteByCategoryState extends State<NoteByCategory> {
                   return NoteCategoryCard(
                     noteContent: noteList[index].content,
                     noteTitle: noteList[index].title,
-                    editNote: () async {},
+                    editNote: () async {
+                      _editNote(noteList[index]);
+                    },
                     removeNote: () async {},
                   );
                 },
