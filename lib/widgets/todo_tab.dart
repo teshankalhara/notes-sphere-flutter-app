@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:notes_sphere_flutter_app/models/todo_model.dart';
 import 'package:notes_sphere_flutter_app/utils/constants.dart';
 import 'package:notes_sphere_flutter_app/utils/text_styles.dart';
+import 'package:notes_sphere_flutter_app/widgets/todo_card.dart';
 
 class TodoTab extends StatefulWidget {
   final List<Todo> incompletedTodos;
@@ -25,6 +26,11 @@ class _TodoTabState extends State<TodoTab> {
               itemCount: widget.incompletedTodos.length,
               itemBuilder: (context, index) {
                 final todo = widget.incompletedTodos[index];
+                return TodoCard(
+                  toDo: todo,
+                  isComplete: false,
+                  onCheckBoxChanged: () {},
+                );
               },
             ),
           ),
