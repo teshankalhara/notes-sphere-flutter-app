@@ -6,6 +6,7 @@ import 'package:notes_sphere_flutter_app/utils/colors.dart';
 import 'package:notes_sphere_flutter_app/utils/router.dart';
 import 'package:notes_sphere_flutter_app/utils/text_styles.dart';
 import 'package:notes_sphere_flutter_app/widgets/completed_tab.dart';
+import 'package:notes_sphere_flutter_app/widgets/todo_data_inharited.dart';
 import 'package:notes_sphere_flutter_app/widgets/todo_tab.dart';
 
 class TodoScreen extends StatefulWidget {
@@ -145,45 +146,51 @@ class _TodoScreenState extends State<TodoScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            AppRouter.router.go("/");
-          },
+    return TodoData(
+      todos: allTodos,
+      onTodosChanged: _loadTodos,
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              AppRouter.router.go("/");
+            },
+          ),
+          bottom: TabBar(
+            controller: _tabController,
+            tabs: const [
+              Tab(child: Text("To-Do", style: AppTextStyles.appDescription)),
+              Tab(
+                child: Text("Completed", style: AppTextStyles.appDescription),
+              ),
+            ],
+          ),
         ),
-        bottom: TabBar(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            openMessageModal(context);
+          },
+          shape: RoundedRectangleBorder(
+            borderRadius: const BorderRadius.all(Radius.circular(100)),
+            side: BorderSide(color: AppColors.kWhiteColor, width: 1),
+          ),
+          child: const Icon(Icons.add, color: AppColors.kWhiteColor, size: 30),
+        ),
+        body: TabBarView(
           controller: _tabController,
-          tabs: const [
-            Tab(child: Text("To-Do", style: AppTextStyles.appDescription)),
-            Tab(child: Text("Completed", style: AppTextStyles.appDescription)),
+          children: [
+            TodoTab(
+              inCompletedTodos: inCompletedTodos,
+              completedTodos: completedTodos,
+            ),
+            CompletedTab(
+              completedTodos: completedTodos,
+              inCompletedTodos: inCompletedTodos,
+            ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          openMessageModal(context);
-        },
-        shape: RoundedRectangleBorder(
-          borderRadius: const BorderRadius.all(Radius.circular(100)),
-          side: BorderSide(color: AppColors.kWhiteColor, width: 1),
-        ),
-        child: const Icon(Icons.add, color: AppColors.kWhiteColor, size: 30),
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          TodoTab(
-            inCompletedTodos: inCompletedTodos,
-            completedTodos: completedTodos,
-          ),
-          CompletedTab(
-            completedTodos: completedTodos,
-            inCompletedTodos: inCompletedTodos,
-          ),
-        ],
       ),
     );
   }
