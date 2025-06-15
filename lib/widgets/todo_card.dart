@@ -19,8 +19,6 @@ class TodoCard extends StatefulWidget {
   State<TodoCard> createState() => _TodoCardState();
 }
 
-class ToDo {}
-
 class _TodoCardState extends State<TodoCard> {
   @override
   Widget build(BuildContext context) {
