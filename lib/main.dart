@@ -5,6 +5,7 @@ import 'package:notes_sphere_flutter_app/models/note_model.dart';
 import 'package:notes_sphere_flutter_app/models/todo_model.dart';
 import 'package:notes_sphere_flutter_app/utils/router.dart';
 import 'package:notes_sphere_flutter_app/utils/theme_data.dart';
+import 'package:notes_sphere_flutter_app/widgets/todo_data_inharited.dart';
 
 void main() async {
   //init hive
@@ -26,13 +27,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: "NotesSphere",
-      debugShowCheckedModeBanner: false,
-      theme: ThemeClass.darkTheme.copyWith(
-        textTheme: GoogleFonts.dmSansTextTheme(Theme.of(context).textTheme),
+    return TodoData(
+      todos: [],
+      onTodosChanged: () {},
+      child: MaterialApp.router(
+        title: "NotesSphere",
+        debugShowCheckedModeBanner: false,
+        theme: ThemeClass.darkTheme.copyWith(
+          textTheme: GoogleFonts.dmSansTextTheme(Theme.of(context).textTheme),
+        ),
+        routerConfig: AppRouter.router,
       ),
-      routerConfig: AppRouter.router,
     );
   }
 }
