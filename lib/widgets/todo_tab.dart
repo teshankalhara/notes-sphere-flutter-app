@@ -62,12 +62,23 @@ class _TodoTabState extends State<TodoTab> {
               itemCount: widget.inCompletedTodos.length,
               itemBuilder: (context, index) {
                 final todo = widget.inCompletedTodos[index];
-                return TodoCard(
-                  toDo: todo,
-                  isComplete: false,
-                  onCheckBoxChanged: () {
-                    _marksTodoAsDone(todo);
+                return Dismissible(
+                  key: Key(todo.id.toString()),
+                  direction: DismissDirection.endToStart,
+                  onDismissed: (direction) {
+                    setState(() {
+                      widget.inCompletedTodos.removeAt(index);
+                      TodoService().deleteTodo(todo);
+                    });
+                    AppHelpers.showSnackBar(context, "Todo deleted");
                   },
+                  child: TodoCard(
+                    toDo: todo,
+                    isComplete: false,
+                    onCheckBoxChanged: () {
+                      _marksTodoAsDone(todo);
+                    },
+                  ),
                 );
               },
             ),
