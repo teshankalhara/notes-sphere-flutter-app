@@ -60,28 +60,27 @@ class _TodoScreenState extends State<TodoScreen>
   }
 
   void _addTodo() async {
-    try {
-      if (_todoController.text.isNotEmpty) {
-        final Todo newToDo = Todo(
-          title: _todoController.text,
-          date: DateTime.now(),
-          time: DateTime.now(),
-          isDone: false,
-        );
+    if (_todoController.text.isNotEmpty) {
+      final Todo newToDo = Todo(
+        title: _todoController.text,
+        date: DateTime.now(),
+        time: DateTime.now(),
+        isDone: false,
+      );
 
-        await todoService.addTodo(newToDo);
-        _todoController.clear();
-
-        await _loadTodos(); // Reload all lists to stay in sync
-
-        if (mounted) {
-          Navigator.pop(context); // Close dialog safely
-          AppHelpers.showSnackBar(context, "Task added successfully!");
+      try {
+        await TodoService().addTodo(newToDo);
+        _loadTodos();
+        final todosData = TodoData.of(context);
+        if (todosData != null) {
+          todosData.onTodosChanged(allTodos);
         }
+        AppHelpers.showSnackBar(context, "Task Added");
+        Navigator.pop(context);
+      } catch (e) {
+        AppHelpers.showSnackBar(context, "Failed to add task");
+        print(e);
       }
-    } catch (e) {
-      debugPrint("Add Todo Error: $e");
-      AppHelpers.showSnackBar(context, "Task add failed!");
     }
   }
 
@@ -148,7 +147,11 @@ class _TodoScreenState extends State<TodoScreen>
   Widget build(BuildContext context) {
     return TodoData(
       todos: allTodos,
-      onTodosChanged: _loadTodos,
+      onTodosChanged: (todo) {
+        setState(() {
+          allTodos = todo;
+        });
+      },
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
