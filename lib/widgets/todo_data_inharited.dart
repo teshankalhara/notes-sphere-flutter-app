@@ -3,7 +3,7 @@ import 'package:notes_sphere_flutter_app/models/todo_model.dart';
 
 class TodoData extends InheritedWidget {
   final List<Todo> todos;
-  final Function() onTodosChanged;
+  final Function(List<Todo>) onTodosChanged;
 
   const TodoData({
     super.key,
