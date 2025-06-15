@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes_sphere_flutter_app/models/todo_model.dart';
 import 'package:notes_sphere_flutter_app/utils/constants.dart';
-import 'package:notes_sphere_flutter_app/utils/text_styles.dart';
 import 'package:notes_sphere_flutter_app/widgets/todo_card.dart';
 
 class TodoTab extends StatefulWidget {
