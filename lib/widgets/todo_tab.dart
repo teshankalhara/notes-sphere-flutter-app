@@ -55,7 +55,7 @@ class _TodoTabState extends State<TodoTab> {
 
     return TodoData(
       todos: widget.inCompletedTodos,
-      onTodosChanged: () {},
+      onTodosChanged: (p0) {},
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: AppConstants.kDefaultPadding),
         child: Column(
