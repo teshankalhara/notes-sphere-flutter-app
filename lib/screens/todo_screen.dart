@@ -78,7 +78,7 @@ class _TodoScreenState extends State<TodoScreen>
       body: TabBarView(
         controller: _tabController,
         children: [
-          TodoTab(incompletedTodos: incompletedTodos),
+          TodoTab(incompletedTodos: allTodos),
           CompletedTab(completedTodos: completedTodos),
         ],
       ),
