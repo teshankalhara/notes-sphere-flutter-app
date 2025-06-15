@@ -34,8 +34,9 @@ class _TodoScreenState extends State<TodoScreen>
     final bool isNewUser = await todoService.isNewUser();
     //print(isNewUser);
     if (isNewUser) {
-      await _loadTodos();
+      await todoService.createInitialTodos();
     }
+    await _loadTodos();
   }
 
   Future<void> _loadTodos() async {
