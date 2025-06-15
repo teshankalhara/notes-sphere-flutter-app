@@ -58,7 +58,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return TodoData(
       todos: allTodos,
-      onTodosChanged: _loadTodos,
+      onTodosChanged: (todos) {
+        setState(() {
+          allTodos = todos;
+        });
+      },
       child: Scaffold(
         appBar: AppBar(
           title: const Text("NotesSphere", style: AppTextStyles.appTitle),
