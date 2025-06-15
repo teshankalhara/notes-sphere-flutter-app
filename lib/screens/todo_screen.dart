@@ -69,18 +69,18 @@ class _TodoScreenState extends State<TodoScreen>
         );
 
         await todoService.addTodo(newToDo);
+        _todoController.clear();
 
-        setState(() {
-          allTodos.add(newToDo);
-          inCompletedTodos.add(newToDo);
-        });
+        await _loadTodos(); // Reload all lists to stay in sync
 
-        AppHelpers.showSnackBar(context, "Task added successfully!");
-        Navigator.pop(context);
+        if (mounted) {
+          Navigator.pop(context); // Close dialog safely
+          AppHelpers.showSnackBar(context, "Task added successfully!");
+        }
       }
     } catch (e) {
-      print(e.toString());
-      AppHelpers.showSnackBar(context, "Task added Failed!");
+      debugPrint("Add Todo Error: $e");
+      AppHelpers.showSnackBar(context, "Task add failed!");
     }
   }
 
@@ -117,10 +117,7 @@ class _TodoScreenState extends State<TodoScreen>
           ),
           actions: <Widget>[
             ElevatedButton(
-              onPressed: () {
-                _addTodo();
-                AppRouter.router.go("/todos");
-              },
+              onPressed: _addTodo,
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(AppColors.kFabColor),
                 shape: MaterialStateProperty.all(
