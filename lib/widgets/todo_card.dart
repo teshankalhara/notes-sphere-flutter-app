@@ -7,6 +7,7 @@ class TodoCard extends StatefulWidget {
   final Todo toDo;
   final bool isComplete;
   final Function() onCheckBoxChanged;
+
   const TodoCard({
     super.key,
     required this.toDo,
