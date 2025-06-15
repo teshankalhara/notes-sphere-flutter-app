@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return TodoData(
       todos: [],
-      onTodosChanged: () {},
+      onTodosChanged: (p0) {},
       child: MaterialApp.router(
         title: "NotesSphere",
         debugShowCheckedModeBanner: false,
