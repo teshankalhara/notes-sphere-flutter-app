@@ -5,6 +5,7 @@ import 'package:notes_sphere_flutter_app/services/todo_service.dart';
 import 'package:notes_sphere_flutter_app/utils/constants.dart';
 import 'package:notes_sphere_flutter_app/utils/router.dart';
 import 'package:notes_sphere_flutter_app/widgets/todo_card.dart';
+import 'package:notes_sphere_flutter_app/widgets/todo_data_inharited.dart';
 
 class CompletedTab extends StatefulWidget {
   final List<Todo> completedTodos;
@@ -53,42 +54,46 @@ class _CompletedTabState extends State<CompletedTab> {
       widget.completedTodos.sort((a, b) => a.time.compareTo(b.time));
     });
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: AppConstants.kDefaultPadding),
-      child: Column(
-        children: [
-          const SizedBox(height: AppConstants.kDefaultHeight * 2),
-          Expanded(
-            child: ListView.builder(
-              itemCount: widget.completedTodos.length,
-              itemBuilder: (context, index) {
-                final todo = widget.completedTodos[index];
-                return Dismissible(
-                  key: Key(todo.id.toString()),
-                  direction: DismissDirection.endToStart,
-                  onDismissed: (direction) {
-                    setState(() {
-                      widget.completedTodos.removeAt(index);
-                      TodoService().deleteTodo(todo);
-                    });
+    return TodoData(
+      todos: widget.completedTodos,
+      onTodosChanged: () {},
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: AppConstants.kDefaultPadding),
+        child: Column(
+          children: [
+            const SizedBox(height: AppConstants.kDefaultHeight * 2),
+            Expanded(
+              child: ListView.builder(
+                itemCount: widget.completedTodos.length,
+                itemBuilder: (context, index) {
+                  final todo = widget.completedTodos[index];
+                  return Dismissible(
+                    key: Key(todo.id.toString()),
+                    direction: DismissDirection.endToStart,
+                    onDismissed: (direction) {
+                      setState(() {
+                        widget.completedTodos.removeAt(index);
+                        TodoService().deleteTodo(todo);
+                      });
 
-                    AppHelpers.showSnackBar(
-                      context,
-                      "Todo deleted successfully",
-                    );
-                  },
-                  child: TodoCard(
-                    toDo: todo,
-                    isComplete: true,
-                    onCheckBoxChanged: () {
-                      _marksTodoAsDone(todo);
+                      AppHelpers.showSnackBar(
+                        context,
+                        "Todo deleted successfully",
+                      );
                     },
-                  ),
-                );
-              },
+                    child: TodoCard(
+                      toDo: todo,
+                      isComplete: true,
+                      onCheckBoxChanged: () {
+                        _marksTodoAsDone(todo);
+                      },
+                    ),
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
