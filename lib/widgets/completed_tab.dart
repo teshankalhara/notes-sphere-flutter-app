@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:notes_sphere_flutter_app/models/todo_model.dart';
 import 'package:notes_sphere_flutter_app/utils/text_styles.dart';
 
 class CompletedTab extends StatefulWidget {
-  const CompletedTab({super.key});
+  final List<Todo> completedTodos;
+
+  const CompletedTab({super.key, required this.completedTodos});
 
   @override
   State<CompletedTab> createState() => _CompletedTabState();
