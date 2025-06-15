@@ -70,6 +70,7 @@ class _TodoScreenState extends State<TodoScreen>
 
       try {
         await TodoService().addTodo(newToDo);
+        _todoController.clear();
         _loadTodos();
         final todosData = TodoData.of(context);
         if (todosData != null) {
